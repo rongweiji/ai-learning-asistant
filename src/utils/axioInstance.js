@@ -12,7 +12,8 @@ const axiosInstance = axios.create({
 
 
 // requesty interceptor to add token to headers
-axiosInstance.interceptors.request.use((config => {
+axiosInstance.interceptors.request.use(
+    (config) => {
     const token = localStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -20,7 +21,8 @@ axiosInstance.interceptors.request.use((config => {
     return config;
 }, (error) => {
     return Promise.reject(error);
-}));
+    }
+);
 
 // respoonse interceptor 
 axiosInstance.interceptors.response.use((response) => {

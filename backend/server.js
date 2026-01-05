@@ -8,6 +8,8 @@ import { fileURLToPath } from "url"; //es style URL to file path
 import connectDB from './config/db.js'; //database connection
 import errorHandler from  './middleware/errorHandler.js';
 import authRoutes from './routes/authRouters.js';
+import documentRouters from './routes/documentRouters.js';
+
 
 // es6 module __dirname alternative
 const __filename = fileURLToPath(import.meta.url);  //get current server/js path 
@@ -41,6 +43,7 @@ app.use('/uploads',express.static(path.join(__dirname,'uploads')));
 
 //Routes
 app.use('/api/auth',authRoutes)
+app.use('/api/documents',documentRouters)
 
 
 

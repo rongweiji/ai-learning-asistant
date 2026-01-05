@@ -1,5 +1,5 @@
 import Document from '../models/Document.js';
-import Flahscard from '../models/Flashcard.js';
+import Flashcard from '../models/Flashcard.js';
 import Quiz from '../models/Quiz.js';
 import {extractTextFromPDF} from '../utils/pdfParser.js';
 import {chunkText} from '../utils/textChunker.js';
@@ -130,7 +130,31 @@ export const getDocuments = async (req, res, next) => {
 // @access  Private
 export const getDocument = async (req, res, next) => {
        try {
+        const document=await Document.findOne({
+            _id:req.params.id,
+            userId:req.user._id
+        });
+        if(!document){
+            return  res.status(404).json({ success: false, error: 'Document not found', statusCode: 404 });
+        }   
+
+        // get count of ascsociated flashcards and quizzes
+        const flashcardCount=await Flashcard.countDocuments({documentId:document._id,userId:req.user._id});
+        const quizCount=await Quiz.countDocuments({documentId:document._id,userId:req.user._id});
         
+        // update last accessed
+        document.lastAccessed=Date.now();
+        await document.save();
+
+        // combine document data with counts
+        const documentData=document.toObject();
+        documentData.flashcardCount=flashcardCount;
+        documentData.quizCount=quizCount;
+
+        res.status(200).json({
+            success: true,
+            data: documentData,
+        });
 
     }catch (error) {
         next(error);
@@ -144,7 +168,25 @@ export const getDocument = async (req, res, next) => {
 // @access  Private
 export const deleteDocument = async (req, res, next) => {
        try {
-        
+        const document=await Document.findOne({
+            _id:req.params.id,
+            userId:req.user._id
+        });
+
+        if (!document) {
+            return res.status(404).json({ success: false, error: 'Document not found', statusCode: 404 });
+        }
+
+        // delete file from file system
+        await fs.unlink(document.filepath).catch(()=>{});
+
+        //delete document
+        await document.deleteOne();
+
+        res.status(200).json({
+            success: true,
+            message: 'Document deleted successfully',
+        });
 
     }catch (error) {
         next(error);
@@ -152,13 +194,3 @@ export const deleteDocument = async (req, res, next) => {
 }
 
 
-// @desc    Update document by ID
-// @route   PUT /api/documents/:id
-// @access  Private
-export const updateDocument = async (req, res, next) => {   try {
-        
-
-    }catch (error) {
-        next(error);
-    }
-}

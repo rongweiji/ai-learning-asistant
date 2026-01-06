@@ -4,7 +4,8 @@ import { Play, BarChart2, Trash2, Award } from 'lucide-react'
 import moment from 'moment'
 
 const QuizCard = ({ quiz, onDelete }) => {
-    const hasAttempts = (quiz?.userAnswers?.length ?? 0) > 0
+
+    const hasAttempts = (quiz?.userAnswer?.length ?? 0) > 0
     const questionCount = quiz?.questions?.length ?? 0
     const createdLabel = quiz?.createdAt ? moment(quiz.createdAt).fromNow() : 'Recently created'
     const title = quiz?.title || (quiz?.createdAt ? `Quiz - ${moment(quiz.createdAt).format('MMM D, YYYY')}` : 'Untitled quiz')
@@ -69,7 +70,7 @@ const QuizCard = ({ quiz, onDelete }) => {
                         </Link>
                     ) : (
                         <Link
-                            to={`/quizzes/${quiz._id}/take`}
+                            to={`/quizzes/${quiz._id}`}
                             className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-emerald-700"
                         >
                             <Play className="h-4 w-4" />

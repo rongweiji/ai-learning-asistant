@@ -80,18 +80,18 @@ export const submitQuiz = async (req, res, next) => {
         const userAnswers=[];
 
         answers.forEach(ans=> {
-            const {questionIndex,selectdAnswer} = ans;
+            const {questionIndex,selectedAnswer} = ans;
             if (questionIndex <quiz.questions.length) {
                 const question = quiz.questions[questionIndex];
-                const isCorrect = question.correctAnswer === selectdAnswer;
+                const isCorrect = question.correctAnswer === selectedAnswer;
                 if (isCorrect) correctCount++;
-                userAnswers.push({ questionIndex, selectdAnswer, isCorrect,answerdAt: new Date() } );
+                userAnswers.push({ questionIndex, selectedAnswer, isCorrect,answerdAt: new Date() } );
             }
         });
 
         const score = Math.round((correctCount / quiz.totalQuestions) * 100);
 
-        quiz.userAnswers = userAnswers;
+        quiz.userAnswer = userAnswers;
         quiz.score = score;
         quiz.completedAt = new Date();
         await quiz.save();
@@ -131,7 +131,7 @@ export const getQuizResults = async (req, res, next) => {
 
         // build detailed results
         const detailedResults = quiz.questions.map((question, index) => {
-            const userAnswer = quiz.userAnswers.find(ans => ans.questionIndex === index);
+            const userAnswer = quiz.userAnswer.find(ans => ans.questionIndex === index);
             return {
                 questionIndex: index,
                 question: question.question,

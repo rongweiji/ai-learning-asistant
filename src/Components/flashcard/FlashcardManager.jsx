@@ -101,6 +101,7 @@ const FlashcardManager = ({ documentId }) => {
       if (selectedSet?._id === updatedSet._id) {
         setSelectedSet(updatedSet);
       }
+      toast.success("Flashcard starred updated");
     } catch (error) {
       toast.error(error.message || "Failed to update flashcard");
       console.error("Error toggling flashcard:", error);

@@ -261,6 +261,36 @@ return (
       </div>
     )}
 
+    {/* Delete confirmation modal */}
+    {isDeleteModalOpen && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+        <div className="w-full max-w-md rounded-2xl bg-white shadow-2xl border border-slate-200 p-6 relative">
+          <button
+            onClick={() => setIsDeleteModalOpen(false)}
+            className="absolute right-4 top-4 p-2 rounded-full hover:bg-slate-100"
+            aria-label="Close delete modal"
+          >
+            <X strokeWidth={2} className="h-5 w-5" />
+          </button>
+
+          <div className="space-y-2 mb-4">
+            <div className="flex items-center gap-2">
+              <Trash2 className="h-5 w-5 text-red-500" />
+              <h2 className="text-xl font-semibold text-slate-900">Delete document</h2>
+            </div>
+            <p className="text-sm text-slate-600">Are you sure you want to delete <span className="font-semibold text-slate-900">"{selectedDoc?.title}"</span>? This action cannot be undone.</p>
+          </div>
+
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setIsDeleteModalOpen(false)} disabled={deleting}>Cancel</Button>
+            <Button onClick={handleComfirmDelete} disabled={deleting} className="bg-red-500 hover:bg-red-400 focus:ring-red-500/50">
+              {deleting ? 'Deleting...' : 'Delete'}
+            </Button>
+          </div>
+        </div>
+      </div>
+    )}
+
 
   </div>
 )

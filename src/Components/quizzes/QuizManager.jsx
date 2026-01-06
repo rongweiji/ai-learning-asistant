@@ -9,7 +9,7 @@ import Button from '../common/Button.jsx'
 import Modal from '../common/Modal.jsx'
 import QuizCard from './QuizCard.jsx'
 import EmptyState from '../common/EmptyState.jsx'
-import { set } from 'mongoose'
+
 
 
 const QuizManager = ({ documentId }) => {
@@ -26,8 +26,8 @@ const QuizManager = ({ documentId }) => {
     const fetchQuizzes = async () => {
         setLoading(true)
         try {
-            const data = await quizService.getQuizzesForDocument(documentId)
-            setQuizzes(data)
+            const res = await quizService.getQuizzesForDocument(documentId)
+            setQuizzes(res.data||[])
         } catch (error) {
             toast.error(error.message || "Failed to load quizzes")
         } finally {
@@ -92,7 +92,7 @@ const QuizManager = ({ documentId }) => {
             )
         }
 
-        if (quizzes.length === 0) {
+        if (quizzes.length === 0 ) {
             return (
                 <EmptyState
                     title="No Quizzes Available"

@@ -12,8 +12,8 @@ const DashboardPage = () => {
     const fetchDashboardData = async () => {
       try {
         const data = await progressService.getDashboard()
-        console.log("Dashboard data:", data)
-        setDashboardData(data)
+
+        setDashboardData(data.data)
 
       } catch (error) {
         console.error("Error fetching dashboard data:", error)
@@ -45,9 +45,9 @@ const DashboardPage = () => {
   }
 
   const stats = [
-    { label: "Total Documents", value: dashboardData.overview.totalDocuments, icon: FileText, gradient: "from-purple-500 to-indigo-600", shadowColor: "shadow-purple-200/50" },
-    { label: "Total Flashcards", value: dashboardData.overview.totalFlashcards, icon: BookOpen, gradient: "from-emerald-500 to-teal-600", shadowColor: "shadow-emerald-200/50" },
-    { label: "Total Quizzes", value: dashboardData.overview.totalQuizzes, icon: TrendingUp, gradient: "from-yellow-500 to-orange-600", shadowColor: "shadow-yellow-200/50" },
+    { label: "Total Documents", value: dashboardData.overview.totalDocuments, icon: FileText, gradient: "from-purple-500 to-indigo-600" },
+    { label: "Total Flashcards", value: dashboardData.overview.totalFlashcards, icon: BookOpen, gradient: "from-emerald-500 to-teal-600" },
+    { label: "Total Quizzes", value: dashboardData.overview.totalQuizzes, icon: TrendingUp, gradient: "from-yellow-500 to-orange-600" },
   ]
 
   const activities = [
@@ -80,14 +80,14 @@ const DashboardPage = () => {
       {/* Stats grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((stat) => (
-          <div key={stat.label} className={`p-6 rounded-2xl bg-gradient-to-br ${stat.gradient} text-white shadow-lg ${stat.shadowColor}`}>
+          <div key={stat.label} className="p-6 rounded-2xl border border-slate-200 bg-white shadow-sm">
             <div className="flex items-center gap-4">
-              <div className="p-3 bg-white/20 rounded-full">
+              <div className={`p-3 rounded-full bg-gradient-to-br ${stat.gradient} text-white shadow-md`}>
                 <stat.icon className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-sm font-medium opacity-90">{stat.label}</p>
-                <p className="text-2xl font-bold mt-1">{stat.value}</p>
+                <p className="text-sm font-medium text-slate-600">{stat.label}</p>
+                <p className="text-2xl font-bold text-slate-900 mt-1">{stat.value}</p>
               </div>
             </div>
           </div>

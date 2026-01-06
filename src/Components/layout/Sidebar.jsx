@@ -32,6 +32,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
             <aside
                 className={`fixed z-50 inset-y-0 left-0 w-64 bg-white border-r border-slate-200 shadow-lg transform transition-transform duration-300 md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
             >
+                <div className="flex h-full flex-col">
                 <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200">
                     <div className="flex items-center gap-3">
                         <div className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600">
@@ -47,7 +48,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                     </button>
                 </div>
 
-                <nav className="px-3 py-4 space-y-1">
+                <nav className="px-3 py-4 space-y-1 flex-1">
                     {navLinks.map((link) => (
                         <NavLink
                             key={link.to}
@@ -66,11 +67,12 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
                 <div className="mt-auto px-3 pb-4">
                     <button
                         onClick={handleLogout}
-                        className="w-full inline-flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors"
+                        className="w-full inline-flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 transition-colors"
                     >
                         <LogOut className="h-5 w-5" />
                         <span>Logout</span>
                     </button>
+                </div>
                 </div>
             </aside>
         </>

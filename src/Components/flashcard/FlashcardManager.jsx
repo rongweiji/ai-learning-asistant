@@ -230,33 +230,35 @@ const FlashcardManager = ({ documentId }) => {
      return (   
       <div className="">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <div>
-            <h3 className="text-lg font-semibold text-slate-900">Flashcard sets</h3>
-            <p className="text-sm text-slate-600">Review and manage the cards generated from this document.</p>
+          <div className='p-4'>
+            <h3 className="text-lg font-semibold text-slate-900">Your Flashcard sets</h3>
+            <p className="text-sm text-slate-600">{flashcardSets.length} sets</p>
           </div>
+          <div className='p-4'>
           <button
             onClick={handleGnerateFlashcards}
             disabled={generating}
-            className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white text-sm font-semibold shadow hover:bg-emerald-700 disabled:opacity-50"
+            className=" inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white text-sm font-semibold shadow hover:bg-emerald-700 disabled:opacity-50"
           >
             {generating ? (
               <><Spinner size="sm" /> Generating...</>
             ) : (
-              <><Plus className="h-4 w-4" /> Generate</>
+              <><Plus className="h-4 w-4" /> Generate New Set</>
             )}
           </button>
+          </div>
         </div>
 
         {/* set grid */}
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3 px-4 mb-4">
           {flashcardSets.map((set) => (
             <div
               key={set._id}
               onClick={() => handleSlectSet(set)}
-              className="group cursor-pointer rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="group cursor-pointer rounded-3xl border border-emerald-100/70 bg-gradient-to-br from-emerald-50 via-white to-slate-50 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-600 text-emerald-50 shadow-sm">
                   <Brain className="h-5 w-5" strokeWidth={2} />
                 </div>
                 <button
@@ -269,15 +271,20 @@ const FlashcardManager = ({ documentId }) => {
                 </button>
               </div>
 
-              <div className="mt-4 space-y-1">
-                <h4 className="text-base font-semibold text-slate-900">Flashcard set</h4>
+              <div className="mt-5 space-y-2">
+                <h4 className="text-lg font-semibold text-slate-900">
+                  {set.documentId?.title || "Flashcard set"}
+                </h4>
                 <p className="text-sm text-slate-600">
                   Created {moment(set.createdAt).fromNow()}
                 </p>
               </div>
 
-              <div className="mt-3 text-sm text-slate-700">
-                {set.cards.length} {set.cards.length === 1 ? 'card' : 'cards'}
+              <div className="mt-4 flex items-center justify-between text-sm">
+                <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100/70 px-3 py-1 text-emerald-700">
+                  {set.cards.length} {set.cards.length === 1 ? "card" : "cards"}
+                </span>
+                <span className="text-slate-500">Tap to review</span>
               </div>
             </div>
           ))}

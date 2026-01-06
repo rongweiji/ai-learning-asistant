@@ -18,6 +18,6 @@ router.get('/', getAllFlashcardSets);
 router.get('/:documentId', getFlashcards);
 router.post('/:cardId/review', reviewFlashcards);
 router.post('/:cardId/star', toggleStarFlashcard);
-router.delete('/:Id', deleteFlashcardSet);
+router.delete('/:id', deleteFlashcardSet);
 
 export default router;

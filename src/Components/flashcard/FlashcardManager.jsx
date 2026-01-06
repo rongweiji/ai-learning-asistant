@@ -86,12 +86,12 @@ const FlashcardManager = ({ documentId }) => {
     try {
       await flashcardService.reviewFlashcard(currentCard._id, cardIndex);
       toast.success("Flashcard reviewed");
-    }catch(error) {
+    } catch (error) {
       toast.error(error.message || "Failed to review flashcard");
       console.error("Error reviewing flashcard:", error);
     }
   }
-  
+
   const handleToggle = async (cardId) => {
     if (!cardId) return;
     try {
@@ -108,7 +108,7 @@ const FlashcardManager = ({ documentId }) => {
   }
 
 
-  const handleDeleteRequest=(e,set) => {
+  const handleDeleteRequest = (e, set) => {
     e.stopPropagation();
     setSetToDelete(set);
     setIsDeleteModalOpen(true);
@@ -120,13 +120,10 @@ const FlashcardManager = ({ documentId }) => {
     setDeleting(true);
     try {
       await flashcardService.deleteFlashcardSet(setToDelete._id);
-      setFlashcardSets((prev) => prev.filter((set) => set._id !== setToDelete._id));
-      if (selectedSet?._id === setToDelete._id) {
-        setSelectedSet(null);
-      }
       toast.success("Flashcard set deleted");
       setIsDeleteModalOpen(false);
       setSetToDelete(null);
+      fetchFlashcardSets();
     } catch (error) {
       toast.error(error.message || "Failed to delete flashcard set");
       console.error("Error deleting flashcard set:", error);
@@ -136,7 +133,7 @@ const FlashcardManager = ({ documentId }) => {
   }
 
 
-  const handleSlectSet=(set) => {
+  const handleSlectSet = (set) => {
     setSelectedSet(set);
     setCurrentCardIndex(0);
   }
@@ -195,14 +192,14 @@ const FlashcardManager = ({ documentId }) => {
     );
   }
 
-  const renderSetList=() => {
+  const renderSetList = () => {
     if (loading) {
       return (
         <div className="flex items-center justify-center min-h-[200px]">
           <Spinner size="lg" />
         </div>
       )
-    }   
+    }
 
     if (flashcardSets.length === 0) {
       return (
@@ -227,7 +224,7 @@ const FlashcardManager = ({ documentId }) => {
           </button>
         </div>)
     }
-     return (   
+    return (
       <div className="">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div className='p-4'>
@@ -235,17 +232,17 @@ const FlashcardManager = ({ documentId }) => {
             <p className="text-sm text-slate-600">{flashcardSets.length} sets</p>
           </div>
           <div className='p-4'>
-          <button
-            onClick={handleGnerateFlashcards}
-            disabled={generating}
-            className=" inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white text-sm font-semibold shadow hover:bg-emerald-700 disabled:opacity-50"
-          >
-            {generating ? (
-              <><Spinner size="sm" /> Generating...</>
-            ) : (
-              <><Plus className="h-4 w-4" /> Generate New Set</>
-            )}
-          </button>
+            <button
+              onClick={handleGnerateFlashcards}
+              disabled={generating}
+              className=" inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-white text-sm font-semibold shadow hover:bg-emerald-700 disabled:opacity-50"
+            >
+              {generating ? (
+                <><Spinner size="sm" /> Generating...</>
+              ) : (
+                <><Plus className="h-4 w-4" /> Generate New Set</>
+              )}
+            </button>
           </div>
         </div>
 
@@ -291,9 +288,9 @@ const FlashcardManager = ({ documentId }) => {
         </div>
       </div>)
 
-          
 
-      
+
+
 
 
 
@@ -308,9 +305,36 @@ const FlashcardManager = ({ documentId }) => {
 
 
   return (
-    <div className='bg-white backdrop-blur-xl border border-slate-200/60 rounded-3xl shadow-xl shadow-slate-200/50'>
-      {selectedSet? renderFlashcardView():renderSetList()}
-    </div>
+    <>
+      <div className='bg-white backdrop-blur-xl border border-slate-200/60 rounded-3xl shadow-xl shadow-slate-200/50'>
+        {selectedSet ? renderFlashcardView() : renderSetList()}
+      </div>
+      {/* delete comfirmation modal */}
+      <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}
+        title="Delete Flashcard Set?">
+        <div className="space-y-4">
+          <p className="text-sm text-slate-700">
+            Are you sure you want to delete this flashcard set? This action cannot be undone.
+          </p>
+          <div className="flex justify-end gap-2">
+            <button
+              disabled={deleting}
+              onClick={() => setIsDeleteModalOpen(false)}
+              className="rounded bg-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-300"
+            >
+              Cancel
+            </button>
+            <button
+              disabled={deleting}
+              onClick={handleConfirmDelete}
+              className="rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700"
+            >
+              {deleting ? 'Deleting...' : 'Delete'}
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </>
   )
 }
 

@@ -9,7 +9,7 @@ export const getFlashcards = async (req, res, next) => {
         const flashcards = await Flashcard.find({
             userId: req.user._id,
             documentId: req.params.documentId
-        }).populate('documentId', 'title filename').sort
+        }).populate('documentId', 'title filename').sort({ createdAt: -1  });
 
         res.status(200).json({
             success: true,

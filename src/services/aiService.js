@@ -39,7 +39,7 @@ const generateSummary = async (documentId) => {
 			documentId,
 	
 		});
-		return res.data;
+		return res.data.data;
 	} catch (error) {
 		throw formatError(error);
 	}
@@ -65,7 +65,7 @@ const explainConcept = async (documentId, concept) => {
 			concept,
 	
 		});
-		return res.data;
+		return res.data.data;
 	} catch (error) {
 		throw formatError(error);
 	}

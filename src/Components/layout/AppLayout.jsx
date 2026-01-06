@@ -15,7 +15,7 @@ const toggleSidebar = () => {
       <Sidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       <div className="flex flex-col flex-1 min-h-screen">
         <Header toggleSidebar={toggleSidebar} />
-        <main className="flex-1 bg-slate-50 p-6">
+        <main className="flex flex-col flex-1 min-h-0 overflow-hidden bg-slate-50 p-6">
           {children}
         </main>
       </div>

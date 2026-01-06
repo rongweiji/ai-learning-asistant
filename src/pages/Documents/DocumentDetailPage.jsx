@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { ArrowLeft, ExternalLink } from 'lucide-react'
 import PageHeader from '../../Components/common/PageHeader.jsx'
 import Tabs from '../../Components/common/Tabs.jsx'
+import ChatInterface from '../../Components/chat/ChatInterface.jsx'
 
 
 const DocumentDetailPage = () => {
@@ -58,8 +59,8 @@ const DocumentDetailPage = () => {
     const pdfUrl = getPdfUrl();
 
     return (
-      <div className='bg-white border border-gray-300 rounded-lg shadow-sm h-full min-h-[70vh] flex flex-col'>
-        <div className="flex items-center justify-between gap-3 p-4 border-b border-slate-200 bg-slate-50/80">
+      <div className='bg-white border border-gray-300 rounded-lg shadow-sm h-full min-h-0 flex flex-col overflow-hidden'>
+        <div className="flex items-center justify-between gap-3 p-4 border-b border-slate-200 bg-slate-50/80 flex-shrink-0">
           <a
             href={pdfUrl}
             target="_blank"
@@ -70,12 +71,12 @@ const DocumentDetailPage = () => {
             Open PDF in new tab
           </a>
         </div>
-        <div className="flex-1 flex flex-col p-4 bg-slate-50">
-          <div className="flex-1 rounded-lg border border-slate-200 overflow-hidden shadow-inner bg-white">
+        <div className="flex-1 min-h-0 flex flex-col p-4 bg-slate-50">
+          <div className="flex-1 min-h-0 rounded-lg border border-slate-200 overflow-hidden shadow-inner bg-white">
             <iframe
               src={pdfUrl}
               title="Document PDF"
-              className="w-full h-full min-h-[60vh] max-h-[calc(100vh-320px)] border-0"
+              className="w-full h-full border-0"
             ></iframe>
           </div>
         </div>
@@ -85,8 +86,8 @@ const DocumentDetailPage = () => {
 
   const renderChat = () => {
     return (
-      <div className="bg-white border border-gray-300 rounded-lg p-6">
-        <p className="text-slate-600">Chat feature coming soon...</p>
+      <div className="bg-white border border-gray-300 rounded-lg h-full min-h-0 overflow-hidden p-4 flex">
+        <ChatInterface />
       </div>
     );
   };
@@ -134,7 +135,7 @@ const DocumentDetailPage = () => {
   const activeTabData = tabs.find(tab => tab.key === activeTab);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col flex-1 min-h-0 h-full overflow-hidden gap-4">
       <Link to='/documents' className="inline-flex items-center gap-2 text-sm text-emerald-600 hover:text-emerald-500 font-medium mb-4">
         <ArrowLeft className="h-4 w-4" />
         Back to Documents
@@ -143,12 +144,14 @@ const DocumentDetailPage = () => {
         title={document.data.title || "Document Details"} 
         description={document.data.description || "View document details and interact with the content."} 
       />
-      <Tabs
-        tabs={tabs}
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-      />
-      <div className="mt-2 min-h-[70vh]">
+      <div className="flex-shrink-0">
+        <Tabs
+          tabs={tabs}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+      </div>
+      <div className="mt-2 flex-1 min-h-0 overflow-hidden">
         {activeTabData && activeTabData.render()}
       </div>
     </div>

@@ -10,6 +10,7 @@ import ChatInterface from '../../Components/chat/ChatInterface.jsx'
 import AiAction from '../../Components/ai/AiAction.jsx'
 import Flashcard from '../../Components/flashcard/Flashcard.jsx'
 import FlashcardManager from '../../Components/flashcard/FlashcardManager.jsx'
+import QuizManager from '../../Components/quizzes/QuizManager.jsx'
 
 
 const DocumentDetailPage = () => {
@@ -109,9 +110,7 @@ const DocumentDetailPage = () => {
 
   const renderQuizTab = () => {
     return (
-      <div className="bg-white border border-gray-300 rounded-lg p-6">
-        <p className="text-slate-600">Quiz feature coming soon...</p>
-      </div>
+      <QuizManager documentId={id} />
     );
   };
 
